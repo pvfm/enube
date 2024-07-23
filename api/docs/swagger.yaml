@@ -1,0 +1,164 @@
+definitions:
+  api_controllers_controllers_v1.UserSession:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    type: object
+  github_com_pvfm_enube_api_models.User:
+    properties:
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      email:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      password:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  gorm.DeletedAt:
+    properties:
+      time:
+        type: string
+      valid:
+        description: Valid is true if Time is not NULL
+        type: boolean
+    type: object
+host: localhost:9292
+info:
+  contact:
+    email: pvmonteiro26@gmail.com
+    name: Pedro Monteiro
+    url: github.com/pvfm
+  description: Enube Importer and Api
+  termsOfService: http://swagger.io/terms/
+  title: Enube Importer and Api
+  version: 1.0.0
+paths:
+  /imports:
+    get:
+      consumes:
+      - application/json
+      description: List Imports
+      parameters:
+      - default: "0"
+        description: Page of result
+        in: query
+        name: page
+        type: string
+      - default: "50"
+        description: Query limit
+        in: query
+        name: limit
+        type: string
+      - default: "0"
+        description: Offset result
+        in: query
+        name: offset
+        type: string
+      - description: With the bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: '{"message": "failure"}'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      tags:
+      - imports
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: Initialize Session
+      parameters:
+      - description: user request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/api_controllers_controllers_v1.UserSession'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"token": "success"}'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: '{"message": "failure"}'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      tags:
+      - session
+  /user:
+    get:
+      consumes:
+      - application/json
+      description: Show User
+      parameters:
+      - description: With the bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github_com_pvfm_enube_api_models.User'
+      tags:
+      - users
+  /users:
+    post:
+      consumes:
+      - application/json
+      description: Create User
+      parameters:
+      - description: user request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_pvfm_enube_api_models.User'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/github_com_pvfm_enube_api_models.User'
+        "500":
+          description: '{"message": "failure"}'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      tags:
+      - users
+swagger: "2.0"
