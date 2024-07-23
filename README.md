@@ -13,8 +13,15 @@ Download all dependencies using the following command:
 go mod download
 ```
 
-### Usage
+### Build
 
+To Build api and importer using the following command:
+```sh
+go build importer/importer.go
+go build api/main.go
+```
+
+### Usage
 To run api just use ./main and insert in our browser the url with
 docs/index.html to more information about api.
 
